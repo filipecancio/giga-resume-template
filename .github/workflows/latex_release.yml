@@ -20,12 +20,12 @@ jobs:
         run: |
             echo "BUILD_DATE=$(date +'%d-%b-%Y')" >> $GITHUB_ENV
             echo "COMPLETE_BUILD_DATE=$(date +'%d-%b-%Y_%h-%mm-%s')" >> $GITHUB_ENV
-            mv article/main.pdf article/artigo.pdf
+            mv resume/main.pdf resume/resume.pdf
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ env.COMPLETE_BUILD_DATE }}"
           prerelease: false
-          title: "Artigo Versao ${{ env.BUILD_DATE }}"
+          title: "Resume Version ${{ env.BUILD_DATE }}"
           files: |
-            article/artigo.pdf
+            resume/resume.pdf
