@@ -1,4 +1,5 @@
 # Giga Pros - Resume Template
+Based on [Gigas Pro - resume](https://gigaprosclub.com/)
 
 ## First Steps
 
