@@ -1,0 +1,34 @@
+name: Build LaTeX document
+on: pull_request
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
+          working_directory: article/
+          continue_on_error: true
+      - name: Save PDF as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: main
+          path: article/main.pdf
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: comment PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const artifactUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+            const currentDate = new Date().toLocaleString("pt-BR", {timeZone: "America/Sao_Paulo"});
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `👋 Aqui está uma nova versão do artigo em PDF: [link](${artifactUrl}). Lançado em ${currentDate}.`
+            })
